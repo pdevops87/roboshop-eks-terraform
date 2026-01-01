@@ -1,0 +1,14 @@
+AmazonEKSComputePolicy:
+=======================
+ENI management
+Networking operations
+Cluster-related actions:
+--------------------------
+Pull images from Amazon ECR.
+Log to CloudWatch (if configured).
+
+
+AmazonEKSBlockStoragePolicy:
+============================
+for ebs volumes
+

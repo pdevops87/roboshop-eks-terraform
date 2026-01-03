@@ -12,3 +12,144 @@ AmazonEKSBlockStoragePolicy:
 ============================
 for ebs volumes
 
+
+
+* kubectl is a tool provided by eks cluster to connect the cluster through cli
+* install kubectl
+* kubectl version : will get an error like not to connect to server
+* kubectl communicates to eks cluster ;;; between kubectl and eks cluster there is an yaml file configuration i.e.kubeconfig
+* A kubeconfig is a YAML file that stores cluster access details. It can be provided manually, or generated via the CLI using:
+aws eks update-kubeconfig --name <cluster-name>
+*
+
+
+
+There are two ways to manage Kubernetes resources: imperative and declarative.
+Kubernetes resources can be managed in two ways:
+Imperative::: kubectl create deployment nginx --image=nginx
+Declarative::: kubectl apply -f deployment.yaml
+
+Kubernetes resources:
+=====================
+Pod
+Deployment
+ReplicaSet
+etc....
+
+Imperative::: kubectl create deployment nginx --image=nginx
+kubectl get pods
+kubectl get pod nginx -o yaml
+*** disadv: manually each and every step we need to write and don't easy to track where the mistakes are there.
+
+List of api resources:
+======================
+kubectl api-resources
+
+List of versions:
+=================
+kubectl api-versions
+
+
+ex1:
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: nginx
+containers:
+ - name: nginx
+   image: nginx
+
+
+Pod is not immediately created on a node.
+First, the API server knows about it, then the scheduler assigns it to a node, and finally the Kubelet on that node starts the Pod.
+
+to enter the shell/bash of a container running in a Pod:
+-------------------------------------------------------
+"kubectl exec -it demo -- bash is the command used"
+
+
+multi-containers:
+-----------------
+apiVersion: v1
+kind: Pod
+metadata:
+ name: multi-containers
+containers:
+  - name: nginx
+    image: nginx
+  - name: tomcat
+    image: tomcat
+
+
+** to know Pod ip address : kubectl get pod <pod-name> -o wide
+** kubectl describe pod <pod-name>: to know node ip address
+
+IP = Pod IP
+Node = Node it’s running on
+
+To know the status of POD Ip: kubectl get pod <pod-name> -o yaml
+
+
+Shared disk in Kubernetes:
+==========================
+* A shared disk (volume) is a storage resource that can be mounted by multiple containers.
+* It doesn’t automatically belong to multiple containers — you have to mount it in each container you want to access it.
+
+
+In Docker (single-host)
+=========================
+* By default, Docker cannot share a local volume across containers on different hosts.
+* You can share a volume between containers on the same host by mounting the same volume into multiple containers:
+check containerd status:
+=========================
+* sudo systemctl status containerd
+Check containerd version:
+
+containerd --version
+
+
+Example output:
+
+containerd containerd.io 1.6.18
+
+
+Volumes:
+========
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: sample
+
+  - image: nginx-content
+    name: content
+    volumeMounts:
+    - mountPath: /opt
+      name: sample
+  volumes:
+  - name: sample
+    emptyDir:
+      sizeLimit: {}
+
+ here /opt is a mount path with an empty directory with the reference name sample  in same pod
+ ===========================================================================================================
+ Volume sharing depends on the volume, not the mountPath name
+ ============================================================
+ Volume name → defines the actual storage. ✅
+  mountPath → is just where the volume appears inside the container.
+  Volume (sample) = storage/disk
+  MountPath (/data) = directory inside container pointing to that disk
+
+
+
+
+
+
+

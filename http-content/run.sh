@@ -1,2 +1,4 @@
-echo Hello World
-tail -f /dev/null
+#!/bin/bash
+
+echo "Hello World"
+tail -f /dev/null   # keep the container alive

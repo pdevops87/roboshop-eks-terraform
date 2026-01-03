@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: nginx
-      image: nginx:1.27
+      image: nginx
 
     - name: nginx-content
       image: pavanidevops78/kubernetes:v1

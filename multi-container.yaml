@@ -8,4 +8,4 @@ spec:
       image: nginx:1.27
 
     - name: nginx-content
-      image: pavanidevops78/kubernetes:v1
+      image: pavanidevops78/kubernetes:v3

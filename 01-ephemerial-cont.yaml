@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: ep-image
-      image: pavanidevops78/kubernetes:ep1
+      image: pavanidevops78/kubernetes:ep2
 
 
 ---

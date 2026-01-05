@@ -11,6 +11,7 @@ RUN                  apt update && \
                      apt install -y curl
 COPY                 --from=build /app /app
 WORKDIR              /app
-ENTRYPOINT          ["server.js"]
+COPY                 run.sh  /app/
+ENTRYPOINT          ["/app/run.sh"]
 
 

@@ -148,6 +148,202 @@ spec:
   MountPath (/data) = directory inside container pointing to that disk
 
 
+=====================================================================================================================================
+kubectl exec -it <pod-name> -c nginx -- ls -l /usr/share/nginx/html , check file permissions
+rw------- → only root can read → nginx (running as nginx user) cannot serve → 403
+
+
+kubectl apply -f "pod.yaml"
+kubectl get pods
+kubectl exec -it pod-name -- bash
+kubectl exec -it demo2 -c nginx -- bash
+
+kubectl describe pod "podname"
+kubectl logs "podname"
+ kubectl logs demo2 -c nginx
+kubectl logs podname -c "container-name"
+kubectl get pod podname -o yaml
+kubectl get pod podname -o wide
+** when image pulls from docker hub , if an image create a container and exit immediately : crashLoopBackOff
+** then add tail -f /dev/null ; to run container infinite times
+* curl localhost
+network sharing:
+================
+Pod: web-pod (IP: 10.0.0.5)
+├─ Container: nginx (Port 80)
+├─ Container: redhat (can reach nginx via localhost:80)
+└─ Shared:
+   ├─ Network namespace
+   ├─ Loopback (localhost)
+   └─ Pod IP (10.0.0.5)
+
+Network sharing: use ports → containers in same Pod can connect via localhost:<port>
+Filesystem sharing: use a shared volume → files are visible to all containers mounting it
+
+Images vs services
+====================
+Image = blueprint of a container; it contains files, libraries, configuration, etc.
+Container = a running instance of the image.
+Service inside the container = a process that listens on a port (e.g., nginx web server, tomcat app server).
+Only services expose data out via network. The raw files inside the image are not automatically exposed.
+
+
+Old way (pre-1.24):
+Kubelet --> DockerShim --> Docker Engine --> Runs container
+
+New way (1.24+):
+Kubelet --> containerd (or CRI-O) --> Runs container
+
+
+
+ephemeral containers:
+---------------------
+kubectl debug -it <pod-name> --image=busybox --target=<target-container-name> -- /bin/sh
+kubectl debug -it my-pod --image=ubuntu --target=app
+--image: image with debugging tools
+--target: container whose namespaces (PID, network, filesystem) you want to share
+-it: interactive terminal
+
+* kubectl debug -it --attach=true -c debug --image=redhat/ubi9 test-nginx
+
+****************************************************************************************
+1. create a dockerfile under ephemeral-container folder
+2. make a file with name "makefile" under this
+ephemeral-practice:
+docker build -t pavanidevops78/kubernetes ephemeral-container
+docker push pavanidevops78/kubernetes
+3. docker run -rm -it --entrypoint bash docker.io/pavanidevops78/kubernetes:ec, this is overriding concept if there is a sh command we need to replace bash
+if there is no command will get an error there is no bash/sh
+4. if a container created then to enter inside shell/bash container otherwise no
+
+two ways to debug:
+==================
+* through pod
+* kubectl debug -it --attach=true -c debug --image=docker.io/pavanidevops/kubernetes:ec test-nginx
+* kubectl debug -it --attach=true -c debug --image=docker.io/pavanidevops/kubernetes:ec
+
+firstway:
+---------
+apiVersion: v1
+kind: Pod
+metadata:
+ name: ephemeral-container
+spec:
+ containers:
+  - name: ephemeral-image
+    image: pavanidevops78/kubernetes:ec
+
+---
+// debug with anoher pod
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: sample
+spec:
+ containers:
+  - name: nginx-content
+    image: pavanidevops78/kubernetes:v1
+
+// kubectl debug, this container is ephemeral
+// this image doesn't contain sh/bash so container won't create
+// container will create but not to start
+// so to troubleshoot this container
+
+kubectl exec -it ephemeral-image -- bash or -- sh
+kubectl exec -it ephemeral-image -- curl localhost:8080
+
+troubleshoot:
+-------------
+* create a container inside same pod: nginx
+two containers are created under same pod
+get container ip address: kubectl get pod -o wide
+so network namespaces are same so we can able to get data inside a shell/bash container using : curl:http://....:8080
+if both are having service then only network sharing is possible
+
+Labels:
+=======
+** In EKS / Kubernetes, labels are the standard way to identify, filter, and group applications.
+** Labels are key-value pairs attached to Kubernetes resources (pods, deployments, services, etc.).
+** They are metadata used for identification, selection, and grouping.
+
+a) List pods with a specific label:
+===================================
+kubectl get pods -l app=my-app
+
+-l → label selector
+Returns only pods with app=my-app
+
+* kubectl get pods --help
+by default show_labels are false, so changed to true then only we can visible
+
+
+Flow of control plane:
+======================
+kubernetes identity:
+=====================
+User
+Groups
+ServiceAccount (special case for workloads)
+1. create an eks cluster
+2. create a node group for ec2 instances
+3. install kubectl
+4. kubectl version
+5. kubectl read kubeconfig to communicate to api-server: aws eks update-kubeconfig -- name dev
+6. kubectl is a tool at client side
+7. kubectl apply -f 01-pod.yaml, here kubectl communicates to api-server , here first api-server authenticate iam identity. here we have to follow a few steps:
+* where cluster installed in ec2 resources [workstation_role] required some policies what cluster should allow[crud operations]
+* kubectl is a client side tool to communicate to api-server, first workstation server role has cluster policies or not.
+* here access entry will come
+* add workstation iam role and add polices
+* now kubectl has a permission to communicate to api-server[authenticate: iam identity+policies , authorization: map iam identity to kubernetes groups, bearer token generate by using iam identity +policies]
+* to get token: aws eks get-token --cluster-name dev
+* api-server write pod spec into etcd
+* scheduler assigns a node for pod
+* kubelet create a container for that pod
+8. kubectl get pods
+api-server get pod objects from etcd
+
+how container create:
+=====================
+Pod spec always stored in etcd first
+Scheduler updates the Pod object with node assignment in etcd
+Kubelet reads the Pod spec via API server — it never reads etcd directly
+Container creation happens after node assignment
+
+Replicaset Controller:
+=======================
+kubectl delete pod
+     │
+     ▼
+API server updates Pod deletionTimestamp → etcd
+     │
+     ▼
+ReplicaSet controller notices Pod missing → create new Pod object → API server → etcd
+     │
+     ▼
+Kubelet on new node reads Pod spec → starts container → updates Pod status → API server → etcd
+
+
+
+ephemeral
+labels
+replicas
+replicacontroller
+
+
+kubectl get pods --watch
+
+
+
+
+
+
+
+
+
+
+
 
 
 

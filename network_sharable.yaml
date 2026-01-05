@@ -6,6 +6,10 @@ spec:
   containers:
     - name: nginx
       image: nginx
+      ports:
+        - containerPort: 80
 
     - name: nginx-content
-      image: pavanidevops78/kubernetes:v3
+      image: pavanidevops78/kubernetes:v4
+      ports:
+        - containerPort: 8000

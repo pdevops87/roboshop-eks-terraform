@@ -1,17 +1,19 @@
 FROM                   docker.io/node:20-alpine AS build
-RUN                    apk add --no-cache unzip npm
+RUN                    apk add --no-cache npm
 RUN                    mkdir /app
 WORKDIR                /app
 COPY                   ./code /app/
 RUN                    npm install
 
 
-FROM                 docker.io/node:20.19.6-slim
+FROM                 gcr.io/distroless/nodejs:10
 RUN                  apt update && \
                      apt install -y curl
 COPY                 --from=build /app /app
 WORKDIR              /app
-COPY                 run.sh  /app/
-ENTRYPOINT          ["/app/run.sh"]
+CMD                 ["hello.js"]
+
+
+
 
 

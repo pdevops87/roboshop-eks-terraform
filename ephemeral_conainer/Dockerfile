@@ -7,11 +7,12 @@ RUN                    npm install
 
 
 FROM                 gcr.io/distroless/nodejs:10
-RUN                  apt update && \
-                     apt install -y curl
 COPY                 --from=build /app /app
 WORKDIR              /app
 CMD                 ["hello.js"]
+
+
+
 
 
 

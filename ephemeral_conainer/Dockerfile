@@ -14,7 +14,8 @@ CMD                  ["hello.js"]
 
 
 
-
+# code/
+# COPY code/ /app , to copy subfolder also
 
 
 

@@ -334,7 +334,8 @@ replicacontroller
 
 kubectl get pods --watch
 
-
+* kubectl get pods  --show-labels=true
+* kubectl get pods  -l app=nginx , here -l is a selector
 
 
 

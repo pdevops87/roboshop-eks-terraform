@@ -7,6 +7,7 @@ RUN                    npm install
 
 
 FROM                 gcr.io/distroless/nodejs:10
+RUN                  mkdir /app
 COPY                 --from=build /app /app
 WORKDIR              /app
 CMD                  ["hello.js"]

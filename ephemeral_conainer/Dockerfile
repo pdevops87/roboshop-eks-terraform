@@ -1,21 +1,23 @@
-FROM                   docker.io/node:20-alpine AS build
-RUN                    apk add --no-cache npm
-RUN                    mkdir /app
-COPY                   package*.json server.js /app
-WORKDIR                /app
-RUN                    npm install
+# Build stage
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package.json server.js ./
+RUN npm install --production
 
+# Runtime stage (distroless)
+FROM gcr.io/distroless/nodejs20-debian12
+WORKDIR /app
+COPY --from=build /app /app
+CMD ["server.js"]
 
-FROM                 gcr.io/distroless/nodejs20
-COPY                 --from=build /app /app
-WORKDIR              /app
-CMD                  ["hello.js"]
 
 
 
 
 # code/
 # COPY code/ /app , to copy subfolder also
+# package.json ./ == package.json /app
+# package.json . == package.json /app
 
 
 

@@ -1,15 +1,15 @@
 # this image is an distroless
-#apiVersion: v1
-#kind: Pod
-#metadata:
-#  name: ephemerial-container
-#spec:
-#  containers:
-#    - name: ep-image
-#      image: pavanidevops78/kubernetes:ep6
-#
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ephemerial-container
+spec:
+  containers:
+    - name: ep-image
+      image: pavanidevops78/kubernetes:ep6
 
-#---
+
+---
 apiVersion: v1
 kind: Pod
 metadata:

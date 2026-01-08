@@ -15,8 +15,8 @@ resource "aws_eks_node_group" "eks-node" {
   node_group_name = "${var.env}-node"
   node_role_arn   = aws_iam_role.node-role.arn
   subnet_ids      = [ "subnet-0e4eadfc446b55f58", "subnet-03b036986ce9c8871" ]
-  capacity_type = "SPOT"
   instance_types = ["t3.medium"]
+#   capacity_type = "SPOT" terminating automatically and recreating a new instance
 
   scaling_config {
     desired_size = 1
@@ -49,11 +49,11 @@ resource "aws_eks_access_policy_association" "policy_association" {
 }
 
 resource "null_resource" "kube-config"{
+  depends_on = [aws_eks_node_group.eks-node]
   triggers = {
-    always_run = timestamp()
-    cluster_id = aws_eks_cluster.cluster.id
+    cluster = timestamp()
   }
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name dev-cluster"
+    command = "rm -rf ~/.kube ; aws eks update-kubeconfig --name dev-cluster"
   }
 }

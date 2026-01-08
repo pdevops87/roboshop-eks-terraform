@@ -325,17 +325,24 @@ ReplicaSet controller notices Pod missing → create new Pod object → API serv
 Kubelet on new node reads Pod spec → starts container → updates Pod status → API server → etcd
 
 
-
-ephemeral
-labels
-replicas
-replicacontroller
-
-
 kubectl get pods --watch
 
 * kubectl get pods  --show-labels=true
 * kubectl get pods  -l app=nginx , here -l is a selector
+* kubectl scale rs rs01 replicas=3, here scale means to increase number of replicas
+// here rs is a shortcut for replicas ,rs01 is a replica name , replicas=3 to increase number of replicas
+
+
+
+environment variables:
+-----------------------
+1.List the running Pods:
+kubectl get pods -l purpose=demonstrate-envars
+
+2.List the Pod's container environment variables:
+kubectl exec envar-demo -- printenv
+
+3.
 
 
 

@@ -1,0 +1,51 @@
+# first way to add env into a container
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-env-01
+data:
+  username: abc
+  password: xyz
+
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-pod
+spec:
+  containers:
+    - name: nginx-content
+      image: pavanidevops/kubernetes:v4
+      emv:
+        - name: username
+          valueFrom:
+            configMapKeyRef:
+              name: config-env-01
+              key: username
+        - name: password
+          valueFrom:
+            configMapKeyRef:
+              name: config-env-01
+              key: password
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-pod-01
+spec:
+  containers:
+    - name: nginx-content
+      image: pavanidevops78/kubernetes:v4
+      envFrom:
+        - configMapRef:
+            name: config-env-01
+
+
+
+
+
+
+

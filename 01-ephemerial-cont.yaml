@@ -6,9 +6,10 @@ metadata:
 spec:
   containers:
     - name: ep-image
-      image: pavanidevops78/kubernetes:v5
+      image: pavanidevops78/kubernetes:ep7
 
 ---
+# this image contains echo to print text message
 apiVersion: v1
 kind: Pod
 metadata:

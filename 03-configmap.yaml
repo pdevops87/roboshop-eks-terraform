@@ -1,0 +1,52 @@
+#Add a file in read-only volume, for the application to read
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-03
+data:
+  username: aadi
+  password: jai
+  training.properties: |
+    course: Java
+    Duration: 3
+    
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-config-03
+spec:
+  containers:
+    - name: alpine-image
+      image: alpine
+      env:
+       - name: username
+         valueFrom:
+           configMapKeyRef:
+             name: configmap-03
+             key: username
+       - name: password
+         valueFrom:
+           configMapKeyRef:
+             name: configmap-03
+             key: password
+      volumeMounts:
+         - name: config
+           mountPath: /data
+
+  volumes:
+    - name: config
+      emptyDir: {}
+      configMap:
+        name: configmap-03
+        items:
+          - key: "training.properties"
+            path: "training.properties"
+
+
+# Environment variables are injected directly into the container process.
+# Files are mounted into the container filesystem at a path you choose (e.g. /data).
+# They serve different purposes and are not interchangeable.
+# cat /data/game.properties

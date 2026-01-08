@@ -1,0 +1,34 @@
+#Inside a container command and args
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-01
+data:
+  course: DevOps
+  Trainer: Raghu
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-config-02
+spec:
+  containers:
+    - name: alpine-image
+      image: alpine
+      command: ["bash","-c"]
+      args:
+        - 'echo "Hello World"'
+      envFrom:
+        - configMapRef:
+            name: configmap-01
+
+
+#  kubernetes doesn't use sh/bash command of the image even though if sh/bash command exists implicitly.
+
+
+
+
+
+

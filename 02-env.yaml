@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-vars
+spec:
+  containers:
+    - name: nginx-content
+      image: pavanidevops/kubernetes:v4
+      env:
+        - name: COURSE
+          value: DEVOPS
+        - name: TRAINING
+          value: Raghu
+        - name: detail
+          value: "$(COURSE) $(TRAINING)"
+      command: [ "sh", "-c" ]
+      args:
+       - 'echo "$detail"'
+
+
+
+

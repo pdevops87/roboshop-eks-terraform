@@ -6,8 +6,7 @@ metadata:
 spec:
   containers:
     - name: ep-image
-      image: pavanidevops78/kubernetes:ep6
-
+      image: pavanidevops78/kubernetes:v5
 
 ---
 apiVersion: v1
@@ -20,4 +19,4 @@ metadata:
 spec:
   containers:
     - name: nginx-content
-      image: pavanidevops78/kubernetes:v5
+      image: pavanidevops78/kubernetes:v4

@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
   name: frontend
   labels:
-    app: guestbook
-    tier: frontend
+    app: roboshop
+
 spec:
   # modify replicas according to your case
   replicas: 3
   selector:
     matchLabels:
-      app: guestbook
-      tier: frontend
+      app: roboshop
+
   template:
     metadata:
       labels:
-        app: guestbook
-        tier: frontend
+        app: roboshop
+
     spec:
       containers:
         - name: nginx

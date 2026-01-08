@@ -38,7 +38,6 @@ spec:
 
   volumes:
     - name: config
-      emptyDir: {}
       configMap:
         name: configmap-03
         items:

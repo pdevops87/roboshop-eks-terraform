@@ -1,0 +1,15 @@
+# this image contains echo to print text message
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug
+  labels:
+    app: nginx
+    project: roboshop
+spec:
+  containers:
+    - name: nginx-content
+      image: pavanidevops78/kubernetes:v4
+      ports:
+        containerPort: 3000
+        hostPort: 3000

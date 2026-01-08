@@ -345,6 +345,15 @@ kubectl exec envar-demo -- printenv
 3.
 
 
+kubernetes resources:
+======================
+secret:
+-------
+* Create the Secret: kubectl apply -f "*.yaml"
+* View information about the Secret: kubectl get secret test-secret
+* View more detailed information about the Secret: kubectl describe secret test-secret
+
+
 
 
 

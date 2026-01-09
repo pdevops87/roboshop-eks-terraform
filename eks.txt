@@ -354,6 +354,11 @@ secret:
 * View more detailed information about the Secret: kubectl describe secret test-secret
 
 
+** services in kubernetes:
+===========================
+
+
+
 
 
 

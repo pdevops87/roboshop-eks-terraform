@@ -9,3 +9,5 @@ spec:
 
     - name: nginx-content
       image: pavanidevops78/kubernetes:v4
+
+

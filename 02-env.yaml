@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: nginx-content
-      image: pavanidevops/kubernetes:v4
+      image: pavanidevops78/kubernetes:v4
       env:
         - name: COURSE
           value: DEVOPS

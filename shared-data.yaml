@@ -19,3 +19,8 @@ spec:
     - name: sample
       emptyDir: {}
 
+
+# here containers are created in same pod and volumes are same with different mount path so here sample.txt content shared in nginx also
+# same volume data can share  to different mount paths
+# one container writes to the volume another container read from the volume
+

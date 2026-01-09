@@ -21,3 +21,7 @@ spec:
   containers:
     - name: nginx-content
       image: pavanidevops78/kubernetes:v4
+
+
+# distroless image : container create but not to start because there is no command bash/sh ; so container fails to start
+# to debug this distroless image creat another pod and debug with pod ip address and port

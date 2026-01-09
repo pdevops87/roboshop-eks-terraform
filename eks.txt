@@ -356,6 +356,27 @@ secret:
 
 ** services in kubernetes:
 ===========================
+Container (my-app):
+  listens on 8080 (application port / containerPort)
+
+Node (EC2 instance):
+  exposes 3000 (hostPort)
+
+Traffic flow:
+External client → NodeIP:3000 → Container:8080 → Application
+
+Application port is inside the container; hostPort is on the node and maps to the container port. They can be the same, but don’t have to be — hostPort is optional and limited to one Pod per node.
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+volumes:
+=========
+Container A (writer) → writes to /shared-data (volume mount)
+Volume (emptyDir, PVC, etc.) → stores the data
+Container B (reader) → reads from /other-path (mounted same volume)
+
+
+
 
 
 

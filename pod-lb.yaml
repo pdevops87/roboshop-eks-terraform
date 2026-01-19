@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-LB
+  name: pod-lb
   labels:
     appName: roboshop
 spec:

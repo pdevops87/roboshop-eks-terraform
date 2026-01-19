@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: node
-      image: pavanidevops78/kubernetes:n1
+      image: pavanidevops78/kubernetes:multi-ports
       ports:
        - containerPort: 3000
        - containerPort: 4000
@@ -19,10 +19,12 @@ metadata:
   name: my-service
 spec:
   selector:
-    app: roboshop
+    appName: roboshop
   ports:
-    - port: 8001 # Service port [we can give service port ]
+    - name: port-1
+      port: 8001 # Service port [we can give service port ]
       targetPort: 3000  # Pod container port
-    - port: 8002
+    - name: port-2
+      port: 8002
       targetPort: 4000
   type: ClusterIP # by default service type is a cluster ip

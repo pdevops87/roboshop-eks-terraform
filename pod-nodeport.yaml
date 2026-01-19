@@ -18,7 +18,7 @@ metadata:
   name: my-service-01
 spec:
   selector:
-    app: roboshop
+    appName: roboshop
   ports:
     - port: 8004 # Service port [we can give service port ]
       targetPort: 80  # Pod container port

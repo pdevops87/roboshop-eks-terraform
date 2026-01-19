@@ -20,6 +20,6 @@ spec:
   selector:
     appName: roboshop
   ports:
-    - port: 8005 # Service port [we can give service port ]
+    - port: 80 # Service port [we can give service port ]
       targetPort: 80  # Pod container port
   type: LoadBalancer

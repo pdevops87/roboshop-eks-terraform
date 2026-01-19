@@ -28,3 +28,5 @@ spec:
       port: 8002
       targetPort: 4000
   type: ClusterIP # by default service type is a cluster ip
+
+# for db , there is only one pod but we have multiple services in this situation we required multi ports

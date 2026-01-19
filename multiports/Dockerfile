@@ -8,6 +8,6 @@ RUN                  npm install
 FROM                docker.io/node:20
 WORKDIR             /app
 COPY               --from=build /app /app
-CMD                 ["node server.js" && "sleep 3000"]
+CMD                 ["node server.js" && "tail -f /dev/null"]
 
 

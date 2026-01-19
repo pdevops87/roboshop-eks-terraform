@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-LB
+  labels:
+    appName: roboshop
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: roboshop
+  ports:
+    - port: 8005 # Service port [we can give service port ]
+      targetPort: 80  # Pod container port
+  type: LoadBalancer

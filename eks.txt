@@ -376,6 +376,140 @@ Volume (emptyDir, PVC, etc.) → stores the data
 Container B (reader) → reads from /other-path (mounted same volume)
 
 
+Services in eks:
+================
+* earlier pod to pod communication through ip address is available, but every time ip address should not be same because when we restart a pod at that time ip address also changed.
+* to avoid this problem we have to go "Service" in kubernetes.
+* Service creates a constant ip address or dns name based on this we have to communicate to the pod
+
+important points:
+=================
+* Pod ip's are not stable: don't use them directly to the communication
+* Service provides a stable IP and DNS name: use this to communicate reliably
+* This works for Pod to Pod communication inside the clsuter
+
+* host Port : node port [ec2 instance]
+* container/application port : target port or containerPort
+* service port: user provide service port and created inside an eks cluster[ClusterIP,NodePort,LoadBalancer]
+* targetPort: Service-Pod
+
+Client → ServicePort (user-defined) → targetPort (Pod containerPort) → Application
+
+Inside the cluster: cluster uses ServicePort to reach Pods
+Outside the cluster: If NodePort or LoadBalancer , traffic goes to NodeIP: NodePort ----> Service -----> Pod
+
+
+Flow how service type to application connects:
+==============================================
+* LoadBalancer receives client request
+* LoadBalancer connect to service port (user provided port)
+* Service Port connects to the container Port i.e targetPort [pod containers port]
+* container port is an application port where the application process will happen
+* finally pod send back traffic  to the service
+
+Client → LoadBalancer (public IP)
+        ↓
+Service (ServicePort, e.g., 8000)
+        ↓
+Pod (targetPort / containerPort, e.g., 80)
+        ↓
+Application (nginx, Node.js, etc.) processes request
+        ↑
+Pod → Service → LoadBalancer → Client (response)
+
+
+2. for single pod multiple ports:
+=================================
+Databases often use multiple ports, and that’s why we expose multiple ports in a single Pod
+
+for example:
+make a dockerfile for node.js
+1.take two ports to listen server node.js
+2.take one pod
+3.take one service
+4.connect both pod and service with labels
+5.open ports in both pod and service
+
+3. when two containers expose with same port in a node then we will get a problem:
+docker run -d -p 8000:80 nginx [to run the same application port two times we will get a problem]
+
+
+kube-proxy:
+===========
+* kube-proxy watches service and endpoints not pods
+* using that information, kube-proxy enables internal L4 load balancing rules
+
+EndPoint:
+=========
+it contains   PodIP + targetPort(container IP)
+
+What kube-proxy actually watches?
+===================================
+kube-proxy watches these API objects:
+
+* Service
+* EndpointSlice (preferred) or Endpoints
+* EndpointSlice contains:  PodIP + targetPort
+
+Pods → EndpointSlice → kube-proxy rules
+
+internal L4 Load balancing rules:
+---------------------------------
+kube-proxy:
+
+1.does not forward packets itself
+2.installs iptables or IPVS rules in the Linux kernel
+3.kernel chooses one Pod endpoint per connection
+This is Layer 4 (TCP/UDP) load balancing.
+
+Flow summary:
+==============
+Pods (labels)
+   ↓
+EndpointSlice
+   ↓
+kube-proxy (watching)
+   ↓
+iptables / IPVS rules
+   ↓
+Kernel load-balances
+
+
+Flow how traffic routes from cluster service to the POD:
+========================================================
+* when a Kubernetes Service forwards traffic to a Pod, it involves NAT
+* First hit client ip address, translate service ip and then pod ip address
+* when you hit a node port[means hitting a outside server]
+* kube-proxy is a networking layer between kubernetes.
+* service forward the traffic to the pod
+* click on Network interface and check which instance is connected to this interface
+* In network interfaces there are multiple ip address.
+* listen address: 0.0.0.0 , in network interfaces have multiple ip address to connect
+* any ip address associated to process , then process will send traffic to ip address.
+*
+how Loadbalancer creates?
+
+User
+  |
+  v
+Kubernetes API → Service type: LoadBalancer
+  |
+  v
+Cloud Controller Manager
+  |
+  v
+AWS API → Provision ELB / register nodes as targets
+  |
+  v
+Load Balancer (external IP/DNS)
+  |
+  v
+Nodes (NodePort)
+  |
+  v
+kube-proxy → Pod (on same or different node)
+
+
 
 
 

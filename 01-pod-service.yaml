@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-01
+  labels:
+    appName: roboshop
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        containerPort: 80
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: myapp
+  ports:
+    - port: 8000 # Service port [we can give service port ]
+      targetPort: 80  # Pod container port
+  type: ClusterIP # by default service type is a cluster ip
+
+
+
+

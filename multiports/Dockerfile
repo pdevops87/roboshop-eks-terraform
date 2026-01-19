@@ -5,7 +5,7 @@ WORKDIR              /app
 RUN                  npm install
 
 
-FROM                docker.io/2node:20
+FROM                docker.io/node:20
 WORKDIR             /app
 COPY               --from=build /app /app
 CMD                 ["node server.js" && "sleep 3000"]

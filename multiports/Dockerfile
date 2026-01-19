@@ -1,6 +1,6 @@
 FROM                 docker.io/node:20.19.6-bullseye-slim As build
 RUN                  mkdir /app
-COPY                 multiports/  /app/
+COPY                 ./  /app/
 WORKDIR              /app
 RUN                  npm install
 

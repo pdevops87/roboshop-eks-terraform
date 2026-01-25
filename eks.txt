@@ -509,12 +509,52 @@ Nodes (NodePort)
   v
 kube-proxy → Pod (on same or different node)
 
+restartPolicy:
+==============
+
+| restartPolicy | Container behavior inside the Pod                                 | Pod behavior                                                                   |
+| ------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Always**    | Container **restarts forever** when it exits (success or failure) | Pod **stays the same**; only recreated if node fails or controller replaces it |
+| **OnFailure** | Container **restarts only if it fails** (non-zero exit)           | Pod **stays the same**; Job may create a new Pod if retries are configured     |
+| **Never**     | Container **never restarts**, exits once                          | Pod **stays the same**; Job may create a **new Pod** to retry                  |
 
 
 
+NodePort:
+=========
+Client (NodeB)
+    │
+    ▼
+NodeB:30080 (NodePort)
+    │ kube-proxy forwards
+    ▼
+Service (NodePort) → Pod (NodeA:80)
+    │
+    ▼
+Pod processes request
+    │
+    ▼
+Response → Client (NodeB)
 
 
+ClusterIP:
+=========
+Client (NodeB)
+     │
+     ▼
+Service (ClusterIP or NodePort) → kube-proxy
+     │
+     ▼
+Pod (Nginx:80)  ← receives request
+     │
+     ▼
+Response → Client  ← directly from Pod, bypassing Service/NodePort
 
+
+LoadBalancer:
+=============
+*** When you have multiple Pods on multiple Nodes, NodePort requires exposing every Node manually, which is messy.
+*** Using LoadBalancer gives a single external entry point, handles traffic distribution automatically, and your application works as expected without clients needing Node details.
 
 
 

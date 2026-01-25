@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-hostport
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        containerPort: 80  # inside application port(nginx)
+        hostPort: 8001 # to expose application out

@@ -10,6 +10,9 @@ data:
   training.properties: |
     course: Java
     Duration: 3
+  config: |
+    name="aadi"
+    url="www.google.com"
     
 
 ---
@@ -43,6 +46,8 @@ spec:
         items:
           - key: "training.properties"
             path: "training.properties"
+          - key: "config"
+            path: "config"
 
 
 # Environment variables are injected directly into the container process.

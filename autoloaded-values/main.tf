@@ -1,5 +1,5 @@
 variable "env" {
-  type="string"
+  type=string
 }
 output "env" {
   value = var.env

@@ -8,7 +8,7 @@ RUN                  npm install
 FROM                docker.io/node:20
 WORKDIR             /app
 COPY               --from=build /app /app
-CMD                ["sh", "-c", "node server.js && tail -f /dev/null"]
+CMD                 ["node", "server.js"]
 
 
 

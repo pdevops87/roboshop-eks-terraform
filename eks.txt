@@ -558,6 +558,29 @@ LoadBalancer:
 
 
 
+1. docker run -d -p 80:80 nginx
+run the same one more time , we will get an error like "already port is allocated"
+
+pod:
+debug image: rkalluru/learnk8s:rhel9-bare
+
+
+kubectl get pods
+kubectl get svc
+kubectl exec -it debug(pod) -- bash
+# curl service-ip-address
+
+** remove service and recreate a service here name remains change but ip changes.
+kubectl get svc svc-name -o yaml,
+kubectl get endpoints
+kubectl get pods -o wide
+
+
+
+
+
+
+
 
 
 

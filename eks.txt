@@ -12,16 +12,12 @@ AmazonEKSBlockStoragePolicy:
 ============================
 for ebs volumes
 
-
-
 * kubectl is a tool provided by eks cluster to connect the cluster through cli
 * install kubectl
 * kubectl version : will get an error like not to connect to server
 * kubectl communicates to eks cluster ;;; between kubectl and eks cluster there is an yaml file configuration i.e.kubeconfig
 * A kubeconfig is a YAML file that stores cluster access details. It can be provided manually, or generated via the CLI using:
 aws eks update-kubeconfig --name <cluster-name>
-*
-
 
 
 There are two ways to manage Kubernetes resources: imperative and declarative.

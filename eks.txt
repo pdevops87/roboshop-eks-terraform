@@ -553,7 +553,6 @@ LoadBalancer:
 *** Using LoadBalancer gives a single external entry point, handles traffic distribution automatically, and your application works as expected without clients needing Node details.
 
 
-
 1. docker run -d -p 80:80 nginx
 run the same one more time , we will get an error like "already port is allocated"
 
@@ -571,8 +570,17 @@ kubectl get svc svc-name -o yaml,
 kubectl get endpoints
 kubectl get pods -o wide
 
+kubectl exec -it multi-ports -- netstat -lntp
+
+ExternalName:
+===============
+cluster creates a CNAME record for externalname
+kubectl exec -it some-pod -- nslookup my-external-service
+here my-external-service is a service name with this cluster creates a DNS records
 
 
+roboshop application:
+======================
 
 
 

@@ -9,14 +9,25 @@ spec:
 
 
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: instana-demo
+  name: catalogue
+  labels:
+    appName: catalogue
 spec:
-  containers:
-    - name: node
-      image: public.ecr.aws/w8x4g9h7/roboshop-v3/catalogue
-      env:
-       - name: INSTANA_DISABLE_TRACING
-         value: "true"
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: catalogue
+  template:
+    metadata:
+      labels:
+        appName: catalogue
+    spec:
+      containers:
+        - name: catalogue
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/catalogue
+          env:
+           - name: INSTANA_DISABLE_TRACING
+             value: "true"

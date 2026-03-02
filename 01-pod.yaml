@@ -36,6 +36,8 @@ spec:
            - name: MONGO_URL
              value: "mongodb://172.31.17.236:27017/catalogue"
 
+
+
 ---
 apiVersion: apps/v1
 kind: Deployment

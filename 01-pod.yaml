@@ -31,6 +31,14 @@ spec:
           env:
            - name: INSTANA_ENABLED
              value: "false"
+           - name: DB_TYPE
+             value: "mongo"
+           - name: APP_GIT_URL
+             value: "https://github.com/roboshop-devops-project-v3/catalogue"
+           - name: DB_HOST
+             value: "172.31.17.236"
+           - name: SCHEMA_FILE
+             value: "db/master-data.js"
 
 ---
 apiVersion: v1

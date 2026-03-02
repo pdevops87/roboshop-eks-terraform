@@ -31,3 +31,16 @@ spec:
           env:
            - name: INSTANA_DISABLE_TRACING
              value: "true"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+spec:
+  selector:
+    appName: catalogue
+  ports:
+    - port: 8080 # Service port [internally load balancer service port is 80 ]
+      targetPort: 8080  # Pod container port
+  type: ClusterIP

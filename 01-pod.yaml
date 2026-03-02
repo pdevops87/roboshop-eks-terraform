@@ -31,15 +31,34 @@ spec:
           env:
            - name: INSTANA_ENABLED
              value: "false"
-           - name: DB_TYPE
-             value: "mongo"
-           - name: APP_GIT_URL
-             value: "https://github.com/roboshop-devops-project-v3/catalogue"
-           - name: DB_HOST
-             value: "172.31.17.236"
-           - name: SCHEMA_FILE
-             value: "db/master-data.js"
+           - name: MONGO
+             value: "true"
+           - name: MONGO_URL
+             value: "mongodb://172.31.17.236:27017/catalogue"
 
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: load-schema-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: schema
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: DB_TYPE
+              value: "mongo"
+            - name: APP_GIT_URL
+              value: "https://github.com/roboshop-devops-project-v3/catalogue"
+            - name: DB_HOST
+              value: "172.31.17.236"
+            - name: SCHEMA_FILE
+              value: "db/master-data.js"
+
+      restartPolicy: Never
+  backoffLimit: 0
 ---
 apiVersion: v1
 kind: Service

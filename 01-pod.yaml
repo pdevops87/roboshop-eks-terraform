@@ -59,6 +59,8 @@ spec:
           env:
             - name: MONGO
               value: "true"
+            - name: INSTANA_ENABLED
+              value: "false"
             - name: MONGO_URL
               value: "mongodb://172.31.17.236:27017/users"
             - name: REDIS_URL

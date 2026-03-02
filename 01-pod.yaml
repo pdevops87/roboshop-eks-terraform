@@ -57,10 +57,10 @@ spec:
         - name: user
           image: public.ecr.aws/w8x4g9h7/roboshop-v3/user
           env:
-            - name: MONGO
-              value: "true"
             - name: INSTANA_ENABLED
               value: "false"
+            - name: MONGO
+              value: "true"
             - name: MONGO_URL
               value: "mongodb://172.31.17.236:27017/users"
             - name: REDIS_URL

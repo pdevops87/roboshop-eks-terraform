@@ -37,6 +37,38 @@ spec:
              value: "mongodb://172.31.17.236:27017/catalogue"
 
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  labels:
+    appName: user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: user
+  template:
+    metadata:
+      labels:
+        appName: user
+    spec:
+      containers:
+        - name: user
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/user
+          env:
+            - name: MONGO
+              value: "true"
+            - name: MONGO_URL
+              value: "mongodb://172.31.17.236:27017/users"
+            - name: REDIS_URL
+              value: "redis://172.31.25.13:6379"
+
+
+
+
+
+---
 apiVersion: batch/v1
 kind: Job
 metadata:

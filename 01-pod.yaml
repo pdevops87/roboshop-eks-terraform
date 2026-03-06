@@ -34,7 +34,7 @@ spec:
            - name: MONGO
              value: "true"
            - name: MONGO_URL
-             value: "mongodb://172.31.17.236:27017/catalogue"
+             value: "mongodb://172.31.19.91:27017/catalogue"
 
 ---
 apiVersion: v1
@@ -102,7 +102,7 @@ spec:
             - name: INSTANA_ENABLED
               value: "false"
             - name: DB_HOST
-              value: "172.31.17.236"
+              value: "172.31.19.91"
             - name: SCHEMA_FILE
               value: "db/master-data.js"
 

@@ -80,9 +80,6 @@ spec:
               value: "redis://172.31.25.13:6379"
 
 
-
-
-
 ---
 apiVersion: batch/v1
 kind: Job
@@ -112,10 +109,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: catalogue
+  name: user
 spec:
   selector:
-    appName: catalogue
+    appName: user
   ports:
     - port: 8080 # Service port [internally load balancer service port is 80 ]
       targetPort: 8080  # Pod container port

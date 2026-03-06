@@ -71,18 +71,29 @@ data:
 
 ---
 
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: frontend
+  labels:
+    appName: frontend
 spec:
-  containers:
-    - name: frontend
-      image: public.ecr.aws/w8x4g9h7/roboshop-v3/frontend
-      envFrom:
-        - configMapRef:
-            name: frontend-cmap
-      ports:
-        - containerPort: 80
-          hostPort: 80
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: frontend
+  template:
+    metadata:
+      labels:
+        appName: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/frontend
+          envFrom:
+            - configMapRef:
+                name: frontend-cmap
+          ports:
+            containerPort: 80
+            hostPort: 80
 

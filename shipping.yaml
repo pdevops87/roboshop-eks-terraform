@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping-cmap
+data:
+  CART_ENDPOINT: "cart:8080"
+  DB_HOST: "172.31.26.88"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+spec:
+  selector:
+    appName: shipping
+  ports:
+    - port: 8080 # Service port
+      targetPort: 8080  # Pod container port
+  type: ClusterIP # by default cluster ip
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  labels:
+    appName: shipping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: shipping
+  template:
+    metadata:
+      labels:
+        appName: shipping
+    spec:
+      containers:
+        - name: shipping
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/shipping
+          envFrom:
+            - configMapRef:
+                name: shipping-cmap
+
+
+

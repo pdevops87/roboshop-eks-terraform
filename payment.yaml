@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-cmap
+data:
+  CART_HOST: "cart"
+  CART_PORT: "8080"
+  USER_HOST: "user"
+  USER_PORT: "8080"
+  AMQP_HOST: "rabbitmq-dev.pdevops78.online"
+  AMQP_USER: "roboshop"
+  AMQP_PASS: "roboshop123"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+spec:
+  selector:
+    appName: payment
+  ports:
+    - port: 8080 # Service port
+      targetPort: 8080  # Pod container port
+  type: ClusterIP # by default cluster ip
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  labels:
+    appName: payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: payment
+  template:
+    metadata:
+      labels:
+        appName: payment
+    spec:
+      containers:
+        - name: payment
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/payment
+          envFrom:
+            - configMapRef:
+                name: payment-cmap
+
+
+
+
+

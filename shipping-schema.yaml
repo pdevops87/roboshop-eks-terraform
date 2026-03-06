@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping-schema
+data:
+  DB_TYPE: "mysql"
+  APP_GIT_URL: "https://github.com/roboshop-devops-project-v3/shipping"
+  DB_HOST: "172.31.26.88"
+  DB_USER: "root"
+  DB_PASS: "RoboShop@1"
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: app-user-schema
+spec:
+  template:
+    spec:
+      containers:
+        - name: schema
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: SCHEMA_FILE
+              value: db/app-user.sql
+
+          envFrom:
+            - configMapRef:
+                name: shipping-schema
+      restartPolicy: Never
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-schema
+spec:
+  template:
+    spec:
+      containers:
+        - name: schema
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: SCHEMA_FILE
+              value: db/schema.sql
+
+          envFrom:
+            - configMapRef:
+                name: shipping-schema
+      restartPolicy: Never
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-master-data
+spec:
+  template:
+    spec:
+      containers:
+        - name: schema
+          image: public.ecr.aws/w8x4g9h7/roboshop-v3/schema-load
+          env:
+            - name: SCHEMA_FILE
+              value: db/master-data.sql
+
+          envFrom:
+            - configMapRef:
+                name: shipping-schema
+      restartPolicy: Never
+  backoffLimit: 0
+
+
+---
+#env:
+#  - name: SCHEMA_FILE
+#    value: "db/master-data.sql,db/schema.sql,db/app-user.sql"

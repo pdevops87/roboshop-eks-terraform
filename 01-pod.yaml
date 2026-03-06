@@ -36,7 +36,18 @@ spec:
            - name: MONGO_URL
              value: "mongodb://172.31.17.236:27017/catalogue"
 
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+spec:
+  selector:
+    appName: catalogue
+  ports:
+    - port: 8080 # Service port
+      targetPort: 8080  # Pod container port
+  type: ClusterIP # by default cluster ip
 
 ---
 apiVersion: apps/v1

@@ -9,3 +9,5 @@ spec:
       ports:
         - containerPort: 80  # inside application port(nginx)
           hostPort: 8001 # to expose application out
+
+

@@ -17,7 +17,7 @@ gpgcheck=1
 gpgkey=https://pkgs.k8s.io/core:/stable:/v1.35/rpm/repodata/repomd.xml.key
 
 
-
+sudo yum install -y kubectl
 
 Access entry details
 IAM principal ARN

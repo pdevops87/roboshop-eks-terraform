@@ -4,3 +4,10 @@
 provider "aws" {
   region = "us-east-1"
 }
+
+#  terraform connects to kubernetes
+provider "helm" {
+  kubernetes = {
+    config_path = "~/.kube/config"
+  }
+}

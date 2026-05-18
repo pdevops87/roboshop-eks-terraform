@@ -6,6 +6,7 @@ provider "aws" {
 }
 
 #  terraform connects to kubernetes
+#  helm read kubernetes config and connect to eks cluster
 provider "helm" {
   kubernetes = {
     config_path = "~/.kube/config"

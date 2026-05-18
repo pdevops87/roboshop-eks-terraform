@@ -35,7 +35,6 @@ resource "aws_eks_node_group" "eks-node" {
 resource "aws_eks_access_entry" "access_entry" {
   cluster_name      = aws_eks_cluster.cluster.name
   principal_arn     = "arn:aws:iam::041445559784:role/workstattion_role"
-  principal_arn     = "arn:aws:iam::041445559784:user/chaitanya"
   type              = "STANDARD"
 }
 resource "aws_eks_access_entry" "access_entry_user" {
@@ -48,7 +47,6 @@ resource "aws_eks_access_entry" "access_entry_user" {
 resource "aws_eks_access_policy_association" "policy_association" {
   cluster_name  = aws_eks_cluster.cluster.name
   policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-  principal_arn     = "arn:aws:iam::041445559784:user/chaitanya"
   principal_arn = "arn:aws:iam::041445559784:role/workstattion_role"
   access_scope {
     type       = "cluster"

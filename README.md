@@ -22,3 +22,5 @@ argocd app wait cart --timeout 30(this is a health check)
 cat /etc/nginx/conf.d/default.conf
 
 
+
+

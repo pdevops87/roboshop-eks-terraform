@@ -16,6 +16,7 @@ resource "aws_eks_node_group" "eks-node" {
   node_role_arn   = aws_iam_role.node-role.arn
   subnet_ids      = [ "subnet-0e4eadfc446b55f58", "subnet-03b036986ce9c8871" ]
   instance_types = ["t3.medium"]
+
 #   capacity_type = "SPOT" terminating automatically and recreating a new instance
 
   scaling_config {

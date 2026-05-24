@@ -4,6 +4,7 @@ resource "helm_release" "prometheus" {
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
+  values = [templatefile("${path.module}/prometheus-stack.yaml}")]
   set = [
     {
       name  = "prometheus.service.type"

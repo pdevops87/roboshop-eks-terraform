@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "pod_identity_assume_role" {
   }
 }
 resource "aws_iam_role" "external-dns-role" {
-  assume_role_policy = data.aws_iam_policy_document.pod_identity_assume_role
+  assume_role_policy = data.aws_iam_policy_document.pod_identity_assume_role.json
 }
 resource "aws_iam_role" "external-dns" {
   name               = "external-dns-inline-policy"
@@ -85,14 +85,14 @@ resource "aws_eks_pod_identity_association" "pod-identity" {
   cluster_name    = aws_eks_cluster.cluster.name
   namespace       = "default"
   service_account = "default"
-  role_arn        = aws_iam_role.addon-role
+  role_arn        = aws_iam_role.addon-role.arn
 }
 
 resource "aws_eks_pod_identity_association" "eks-pod-identity" {
   cluster_name    = aws_eks_cluster.cluster.name
   namespace       = "default"
   service_account = "external-dns"
-  role_arn        = aws_iam_role.addon-role
+  role_arn        = aws_iam_role.addon-role.arn
 }
 
 # service account links to iam role to connect to pods

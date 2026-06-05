@@ -10,12 +10,12 @@
 #  so here external-dns cannot communicate directly to the route53
 #  so create an add-on eks pod identity
 
-
+# create eks pod identity
 resource "aws_eks_addon" "pod-identity" {
   cluster_name = aws_eks_cluster.cluster.name
   addon_name   = "eks-pod-identity-agent"
 }
-
+# create external dns
 resource "aws_eks_addon" "external-dns" {
   cluster_name = aws_eks_cluster.cluster.name
   addon_name   = "external-dns"
@@ -80,6 +80,7 @@ resource "aws_iam_role_policy_attachment" "policy" {
 # link service account and iam role
 # associate pod identity
 
+# create eks pod identity
 resource "aws_eks_pod_identity_association" "pod-identity" {
   cluster_name    = aws_eks_cluster.cluster.name
   namespace       = "default"

@@ -20,7 +20,7 @@ resource "helm_release" "prometheus" {
       value = "nginx"
     }
   ]
-  set_lists = [
+  set_list = [
     {
       name="prometheus.ingress.hosts"
       value=["prometheus-dev.pdevops78.online"]

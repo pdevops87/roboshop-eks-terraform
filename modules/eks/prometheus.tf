@@ -10,6 +10,18 @@ resource "helm_release" "prometheus" {
       {
       name = "grafana.enabled"
       value = false
+    },
+    {
+      name = "prometheus.ingress.enabled"
+      value = true
+    },
+    {
+      name = "prometheus.ingress.ingressClassName"
+      value = "nginx"
+    },
+    set_list {
+      name  = "prometheus.ingress.hosts"
+      value = ["prometheus-dev.pdevops78.online"]
     }
   ]
 }

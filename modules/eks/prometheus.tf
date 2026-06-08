@@ -19,9 +19,11 @@ resource "helm_release" "prometheus" {
       name = "prometheus.ingress.ingressClassName"
       value = "nginx"
     },
-    set_list {
-      name  = "prometheus.ingress.hosts"
-      value = ["prometheus-dev.pdevops78.online"]
+  ]
+  set_lists = [
+    {
+      name="prometheus.ingress.hosts"
+      value=["prometheus-dev.pdevops78.online"]
     }
   ]
 }

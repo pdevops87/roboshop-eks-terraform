@@ -1,6 +1,6 @@
 # install prometheus
 resource "helm_release" "prometheus" {
-  depends_on = [null_resource.kube-config]
+  depends_on = [null_resource.kube-config,helm_release.nginx-ingress]
   name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"

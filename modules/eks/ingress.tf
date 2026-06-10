@@ -8,6 +8,7 @@ resource "helm_release" "nginx-ingress" {
       name = "controller.metrics.enabled"
       value = true
     }
+  ]
 }
 
 

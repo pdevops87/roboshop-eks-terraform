@@ -25,3 +25,6 @@ resource "helm_release" "argocd" {
     }
   ]
 }
+# by default, when we install argocd through helm chart ingress is disable
+# by default argocd protocol is http, but through ingress , protocol is https, so to enable protocol http ----> https
+# argocd doesn't have SSL termination, ingress have SSL termination, to route application smoothly through ingress we can config insecure as true

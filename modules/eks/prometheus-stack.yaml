@@ -13,4 +13,4 @@ prometheus:
     additionalScrapeConfigs:
       - job_name: "nginx ingress"
         static_configs:
-          - targets: ["nginx-ingress-ingress-nginx-controller:9113"]
+          - targets: ["nginx-ingress-ingress-nginx-controller-metrics:10254"]

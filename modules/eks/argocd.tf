@@ -2,7 +2,7 @@ resource "helm_release" "argocd" {
 
   depends_on = [null_resource.kube-config, helm_release.nginx-ingress]
 
-  name       = "argocd"
+  name       = "argo"
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
 

@@ -1,6 +1,16 @@
+#prometheus:
+#  prometheusSpec:
+#    additionalScrapeConfigs:
+#      - job_name: "nginx exporter"
+#        static_configs:
+#          - targets: ["frontend:9113"]
+
+
+
+
 prometheus:
   prometheusSpec:
     additionalScrapeConfigs:
-      - job_name: "nginx exporter"
+      - job_name: "nginx ingress"
         static_configs:
-          - targets: ["frontend:9113"]
+          - targets: ["nginx-ingress-ingress-nginx-controller:9113"]

@@ -27,7 +27,7 @@ resource "helm_release" "prometheus" {
   set_list = [
     {
       name="prometheus.ingress.hosts"
-      value=["prometheus-dev.pdevops78.online"]
+      value=["prometheus-dev.pdevops87.online"]
     }
   ]
 }

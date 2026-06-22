@@ -17,7 +17,7 @@ resource "helm_release" "argocd" {
     },
     {
       name  = "global.domain"
-      value = "argocd-${var.env}.pdevops78.online"
+      value = "argocd-${var.env}.pdevops87.online"
     },
     {
       name  = "configs.params.server\\.insecure"

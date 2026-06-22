@@ -1,8 +1,8 @@
 resource "helm_release" "nginx-ingress" {
   depends_on = [null_resource.kube-config]
-  name       = "nginx-ingress"
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart      = "ingress-nginx"
+  name       = "f5-nginx-ingress"
+  repository = "https://helm.nginx.com/stable"
+  chart      = "nginx-ingress"
   values = [file("${path.module}/ingress_values.yaml")]
   set = [
     {

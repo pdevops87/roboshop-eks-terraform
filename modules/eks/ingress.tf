@@ -3,6 +3,7 @@ resource "helm_release" "nginx-ingress" {
   name       = "nginx-ingress"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
+  values = [file("${path.module}/ingress_values.yaml")]
   set = [
     {
       name = "controller.metrics.enabled"

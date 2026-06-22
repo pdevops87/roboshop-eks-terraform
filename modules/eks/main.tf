@@ -11,7 +11,6 @@ resource "aws_eks_cluster" "cluster" {
 
 resource "aws_eks_node_group" "eks-node" {
   cluster_name    = aws_eks_cluster.cluster.name
-#   ami_type = ""
   node_group_name = "${var.env}-node"
   node_role_arn   = aws_iam_role.node-role.arn
   subnet_ids      = [ "subnet-0e4eadfc446b55f58", "subnet-03b036986ce9c8871" ]

@@ -3,6 +3,7 @@ resource "helm_release" "nginx-ingress" {
   name       = "f5-nginx-ingress"
   repository = "https://helm.nginx.com/stable"
   chart      = "nginx-ingress"
+  disable_openapi_validation = true
   values = [file("${path.module}/ingress_values.yaml")]
   set = [
     {

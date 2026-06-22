@@ -11,7 +11,7 @@ resource "helm_release" "nginx-ingress" {
     },
     {
       name = "controller.podAnnotations.prometheus\\.io/port"
-      value = 10254
+      value = 9113
     },
     {
       name = "controller.podAnnotations.prometheus\\.io/scrape"
